@@ -12,7 +12,7 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
-export class ExampleEntity extends Entity {
+export class PoolPrize extends Entity {
   constructor(id: string) {
     super();
     this.set("id", Value.fromString(id));
@@ -20,17 +20,17 @@ export class ExampleEntity extends Entity {
 
   save(): void {
     let id = this.get("id");
-    assert(id !== null, "Cannot save ExampleEntity entity without an ID");
+    assert(id !== null, "Cannot save PoolPrize entity without an ID");
     assert(
       id.kind == ValueKind.STRING,
-      "Cannot save ExampleEntity entity with non-string ID. " +
+      "Cannot save PoolPrize entity with non-string ID. " +
         'Considering using .toHex() to convert the "id" to a string.'
     );
-    store.set("ExampleEntity", id.toString(), this);
+    store.set("PoolPrize", id.toString(), this);
   }
 
-  static load(id: string): ExampleEntity | null {
-    return store.get("ExampleEntity", id) as ExampleEntity | null;
+  static load(id: string): PoolPrize | null {
+    return store.get("PoolPrize", id) as PoolPrize | null;
   }
 
   get id(): string {
@@ -42,21 +42,48 @@ export class ExampleEntity extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get count(): BigInt {
-    let value = this.get("count");
+  get drawId(): BigInt {
+    let value = this.get("drawId");
     return value.toBigInt();
   }
 
-  set count(value: BigInt) {
-    this.set("count", Value.fromBigInt(value));
+  set drawId(value: BigInt) {
+    this.set("drawId", Value.fromBigInt(value));
   }
 
-  get admin(): Bytes {
-    let value = this.get("admin");
-    return value.toBytes();
+  get depositCount(): BigInt {
+    let value = this.get("depositCount");
+    return value.toBigInt();
   }
 
-  set admin(value: Bytes) {
-    this.set("admin", Value.fromBytes(value));
+  set depositCount(value: BigInt) {
+    this.set("depositCount", Value.fromBigInt(value));
+  }
+
+  get depositAmount(): BigInt {
+    let value = this.get("depositAmount");
+    return value.toBigInt();
+  }
+
+  set depositAmount(value: BigInt) {
+    this.set("depositAmount", Value.fromBigInt(value));
+  }
+
+  get withdrawalCount(): BigInt {
+    let value = this.get("withdrawalCount");
+    return value.toBigInt();
+  }
+
+  set withdrawalCount(value: BigInt) {
+    this.set("withdrawalCount", Value.fromBigInt(value));
+  }
+
+  get withdrawalAmount(): BigInt {
+    let value = this.get("withdrawalAmount");
+    return value.toBigInt();
+  }
+
+  set withdrawalAmount(value: BigInt) {
+    this.set("withdrawalAmount", Value.fromBigInt(value));
   }
 }

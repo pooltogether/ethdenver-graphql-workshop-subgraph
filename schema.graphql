@@ -1,5 +1,11 @@
-type ExampleEntity @entity {
+type PoolPrize @entity {
   id: ID!
-  count: BigInt!
-  admin: Bytes! # address
+
+  drawId: BigInt!
+  
+  depositCount: BigInt!
+  depositAmount: BigInt!
+
+  withdrawalCount: BigInt!
+  withdrawalAmount: BigInt!
 }
