@@ -30,7 +30,15 @@ export function handleCommitted(event: Committed): void {}
 
 export function handleCommittedDepositWithdrawn(
   event: CommittedDepositWithdrawn
-): void {}
+): void {
+  let contract = Contract.bind(event.address)
+  let drawId = contract.currentOpenDrawId()
+  let prize = PoolPrize.load(drawId.toHexString())
+  prize.drawId = drawId
+  prize.withdrawalCount = prize.withdrawalCount.plus(BigInt.fromI32(1))
+  prize.withdrawalAmount = prize.withdrawalAmount.plus(event.params.amount);
+  prize.save()
+}
 
 export function handleDeposited(event: Deposited): void { 
   let contract = Contract.bind(event.address)
@@ -60,7 +68,15 @@ export function handleNextFeeFractionChanged(
   event: NextFeeFractionChanged
 ): void {}
 
-export function handleOpenDepositWithdrawn(event: OpenDepositWithdrawn): void {}
+export function handleOpenDepositWithdrawn(event: OpenDepositWithdrawn): void {
+  let contract = Contract.bind(event.address)
+  let drawId = contract.currentOpenDrawId()
+  let prize = PoolPrize.load(drawId.toHexString())
+  prize.drawId = drawId
+  prize.withdrawalCount = prize.withdrawalCount.plus(BigInt.fromI32(1))
+  prize.withdrawalAmount = prize.withdrawalAmount.plus(event.params.amount);
+  prize.save()
+}
 
 export function handleOpened(event: Opened): void {
   let prize = new PoolPrize(event.params.drawId.toHexString())
@@ -78,9 +94,25 @@ export function handleRolledOver(event: RolledOver): void {}
 
 export function handleSponsorshipAndFeesWithdrawn(
   event: SponsorshipAndFeesWithdrawn
-): void {}
+): void {
+  let contract = Contract.bind(event.address)
+  let drawId = contract.currentOpenDrawId()
+  let prize = PoolPrize.load(drawId.toHexString())
+  prize.drawId = drawId
+  prize.withdrawalCount = prize.withdrawalCount.plus(BigInt.fromI32(1))
+  prize.withdrawalAmount = prize.withdrawalAmount.plus(event.params.amount)
+  prize.save()
+}
 
-export function handleSponsorshipDeposited(event: SponsorshipDeposited): void {}
+export function handleSponsorshipDeposited(event: SponsorshipDeposited): void {
+  let contract = Contract.bind(event.address)
+  let drawId = contract.currentOpenDrawId()
+  let prize = PoolPrize.load(drawId.toHexString())
+  prize.drawId = drawId
+  prize.depositCount = prize.depositCount.plus(BigInt.fromI32(1))
+  prize.depositAmount = prize.depositAmount.plus(event.params.amount)
+  prize.save()
+}
 
 export function handleWithdrawn(event: Withdrawn): void {
   let contract = Contract.bind(event.address)
